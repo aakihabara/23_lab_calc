@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 
 class MainActivity : AppCompatActivity() {
 
@@ -30,6 +31,18 @@ class MainActivity : AppCompatActivity() {
     private var second_number = 0
     private var solve_index = 0
 
+    private fun restart() {
+        first_number = 0
+        second_number = 0
+        result = 0
+        solve_index = 0
+        textView.text = first_number.toString()
+    }
+
+    private fun ErrorMessage(){
+        Toast.makeText(this, "Calc were restarted due error caused by divide by zero", Toast.LENGTH_SHORT).show()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -53,99 +66,128 @@ class MainActivity : AppCompatActivity() {
         solveButton = findViewById(R.id.button_solve)
 
         oneButton.setOnClickListener{
-            textView.text = if(textView.text == "0") "1" else {textView.text.toString() + "1"}
+            textView.text = if(textView.text == "0" || textView.text == "Error") "1" else {textView.text.toString() + "1"}
         }
 
         twoButton.setOnClickListener{
-            textView.text = if(textView.text == "0") "2" else {textView.text.toString() + "2"}
+            textView.text = if(textView.text == "0" || textView.text == "Error") "2" else {textView.text.toString() + "2"}
         }
 
         threeButton.setOnClickListener{
-            textView.text = if(textView.text == "0") "3" else {textView.text.toString() + "3"}
+            textView.text = if(textView.text == "0" || textView.text == "Error") "3" else {textView.text.toString() + "3"}
         }
 
         fourButton.setOnClickListener{
-            textView.text = if(textView.text == "0") "4" else {textView.text.toString() + "4"}
+            textView.text = if(textView.text == "0" || textView.text == "Error") "4" else {textView.text.toString() + "4"}
         }
 
         fiveButton.setOnClickListener{
-            textView.text = if(textView.text == "0") "5" else {textView.text.toString() + "5"}
+            textView.text = if(textView.text == "0" || textView.text == "Error") "5" else {textView.text.toString() + "5"}
         }
 
         sixButton.setOnClickListener{
-            textView.text = if(textView.text == "0") "6" else {textView.text.toString() + "6"}
+            textView.text = if(textView.text == "0" || textView.text == "Error") "6" else {textView.text.toString() + "6"}
         }
 
         sevenButton.setOnClickListener{
-            textView.text = if(textView.text == "0") "7" else {textView.text.toString() + "7"}
+            textView.text = if(textView.text == "0" || textView.text == "Error") "7" else {textView.text.toString() + "7"}
         }
 
         eightButton.setOnClickListener{
-            textView.text = if(textView.text == "0") "8" else {textView.text.toString() + "8"}
+            textView.text = if(textView.text == "0" || textView.text == "Error") "8" else {textView.text.toString() + "8"}
         }
 
         nineButton.setOnClickListener{
-            textView.text = if(textView.text == "0") "9" else {textView.text.toString() + "9"}
+            textView.text = if(textView.text == "0" || textView.text == "Error") "9" else {textView.text.toString() + "9"}
         }
 
         zeroButton.setOnClickListener{
-            textView.text = if(textView.text == "0") "0" else {textView.text.toString() + "0"}
+            textView.text = if(textView.text == "0" || textView.text == "Error") "0" else {textView.text.toString() + "0"}
         }
 
         plusButton.setOnClickListener {
-            first_number = textView.text.toString().toInt()
-            textView.text = "0"
-            solve_index = 1
+            if (textView.text == "Error"){
+                restart()
+                ErrorMessage()
+            } else {
+                first_number = textView.text.toString().toInt()
+                textView.text = "0"
+                solve_index = 1
+            }
         }
 
         minusButton.setOnClickListener {
-            first_number = textView.text.toString().toInt()
-            textView.text = "0"
-            solve_index = 2
+            if (textView.text == "Error"){
+                restart()
+                ErrorMessage()
+            } else {
+                first_number = textView.text.toString().toInt()
+                textView.text = "0"
+                solve_index = 2
+            }
         }
 
         multiplyButton.setOnClickListener {
-            first_number = textView.text.toString().toInt()
-            textView.text = "0"
-            solve_index = 3
+            if (textView.text == "Error"){
+                restart()
+                ErrorMessage()
+            } else {
+                first_number = textView.text.toString().toInt()
+                textView.text = "0"
+                solve_index = 3
+            }
         }
 
         divButton.setOnClickListener {
-            first_number = textView.text.toString().toInt()
-            textView.text = "0"
-            solve_index = 4
+            if (textView.text == "Error"){
+                restart()
+                ErrorMessage()
+            } else {
+                first_number = textView.text.toString().toInt()
+                textView.text = "0"
+                solve_index = 4
+            }
         }
 
         solveButton.setOnClickListener{
-            second_number = textView.text.toString().toInt()
-            when(solve_index){
-                1 -> {
-                    result = first_number + second_number
+            if(textView.text == "Error"){
+                //nothing
+            } else {
+                second_number = textView.text.toString().toInt()
+                when(solve_index){
+                    1 -> {
+                        result = first_number + second_number
+                        textView.text = result.toString()
+                    }
+                    2 -> {
+                        result = first_number - second_number
+                        textView.text = result.toString()
+                    }
+                    3 -> {
+                        result = first_number * second_number
+                        textView.text = result.toString()
+                    }
+                    4 -> {
+                        if(second_number == 0){
+                            textView.text = "Error"
+                            result = 0
+                        } else {
+                            result = first_number / second_number
+                            textView.text = result.toString()
+                        }
+                    }
+                    else -> {
+                        //nothing
+                    }
                 }
-                2 -> {
-                    result = first_number - second_number
-                }
-                3 -> {
-                    result = first_number * second_number
-                }
-                4 -> {
-                    result = first_number / second_number
-                }
-                else -> {
-                    //nothing
-                }
+                first_number = result
             }
-
-            textView.text = result.toString()
-            first_number = result
         }
 
+
+
         rebuildButton.setOnClickListener{
-            first_number = 0
-            second_number = 0
-            result = 0
-            solve_index = 0
-            textView.text = first_number.toString()
+            restart()
         }
     }
 }
